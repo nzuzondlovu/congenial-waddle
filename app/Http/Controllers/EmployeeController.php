@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Return all employees
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function index()
     {
-        # code...
+        $employees = Employee::all();
+
+        return view('employees.index', ['employees' => $employees]);
     }
 
     public function store(Request $request)
