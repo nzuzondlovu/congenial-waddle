@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
 
 class EmployeeController extends Controller
 {
@@ -83,9 +84,48 @@ class EmployeeController extends Controller
         return redirect('/');
     }
 
-    public function update(Request $request)
+    /**
+     * Update the employee details
+     *
+     * @param UpdateEmployeeRequest $request
+     * @param integer $id
+     * @return View
+     */
+    public function update(UpdateEmployeeRequest $request, $id)
     {
-        # code...
+        $employee = Employee::find($id);
+
+        if ($employee) {
+            try {
+
+                $employee->city = $request->city;
+                $employee->country_id = $request->country;
+                $employee->last_name = $request->last_name;
+                $employee->first_name = $request->first_name;
+                $employee->postal_code = $request->postal_code;
+                $employee->date_of_birth = $request->date_of_birth;
+                $employee->email_address = $request->email_address;
+                $employee->contact_number = $request->contact_number;
+                $employee->street_address = $request->street_address;
+                $employee->save();
+
+                if (!empty($request->skills)) {
+                    $employee->skills()->detach();
+                    foreach ($request->skills as $skill) {
+                        $employee->skills()->attach($skill['skill_id'], [
+                            'years' => $skill['years'],
+                            'seniority_rating' => $skill['rating']
+                        ]);
+                    }
+                }
+
+                return redirect('/employees/' . $employee->id);
+            } catch (Exception $e) {
+                report($e);
+            }
+        }
+
+        return redirect('/');
     }
 
     /**
