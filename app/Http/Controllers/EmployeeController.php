@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreEmployeeRequest;
 
 class EmployeeController extends Controller
 {
@@ -20,9 +22,38 @@ class EmployeeController extends Controller
         return view('employees.index', ['employees' => $employees]);
     }
 
-    public function store(Request $request)
+    public function store(StoreEmployeeRequest $request)
     {
-        # code...
+        try {
+            $employee = Employee::create([
+                'city' => $request->city,
+                'country_id' => $request->country,
+                'last_name' => $request->last_name,
+                'first_name' => $request->first_name,
+                'postal_code' => $request->postal_code,
+                'date_of_birth' => $request->date_of_birth,
+                'email_address' => $request->email_address,
+                'contact_number' => $request->contact_number,
+                'street_address' => $request->street_address,
+            ]);
+
+            if (!empty($request->skills)) {
+                foreach ($request->skills as $skill) {
+                    $employee->skills()->attach($skill['skill_id'], [
+                        'years' => $skill['years'],
+                        'seniority_rating' => $skill['rating']
+                    ]);
+                }
+            }
+
+            return redirect('/employees/' . $employee->id);
+        } catch (Exception $e) {
+            report($e);
+        }
+
+        return redirect()
+            ->back()
+            ->withInput();
     }
 
     public function show(Request $request)
