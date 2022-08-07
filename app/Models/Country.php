@@ -19,7 +19,7 @@ class Country extends Model
     ];
 
     /**
-     * Get the employees that belongs to the cashout.
+     * Get the employees that belongs to the country.
      */
     public function employees()
     {
