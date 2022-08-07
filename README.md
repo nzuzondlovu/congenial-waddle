@@ -32,6 +32,12 @@ Install dependencies
   composer install
 ```
 
+Migrate and seed database
+
+```bash
+  php artisan migrate:fresh --seed
+```
+
 Start the server
 
 ```bash
