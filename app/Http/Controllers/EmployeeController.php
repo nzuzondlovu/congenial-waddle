@@ -22,6 +22,12 @@ class EmployeeController extends Controller
         return view('employees.index', ['employees' => $employees]);
     }
 
+    /**
+     * Store new employee
+     *
+     * @param StoreEmployeeRequest $request
+     * @return View
+     */
     public function store(StoreEmployeeRequest $request)
     {
         try {
