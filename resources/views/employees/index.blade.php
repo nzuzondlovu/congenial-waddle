@@ -10,7 +10,6 @@
         <th>First Name</th>
         <th>Last Name</th>
         <th>Email Address</th>
-        <th>Role</th>
         <th>Member Since</th>
     </thead>
     <tbody>
@@ -21,7 +20,6 @@
             </td>
             <td>{{ $employee->last_name }}</td>
             <td>{{ $employee->email }}</td>
-            <td>{{ $employee->roles[0]->name }}</td>
             <td>{{ $employee->created_at }}</td>
         </tr>
         @endforeach
