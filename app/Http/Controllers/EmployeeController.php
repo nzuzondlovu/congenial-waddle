@@ -75,7 +75,8 @@ class EmployeeController extends Controller
 
         if ($employee) {
             return view('employees.show', [
-                'employee' => $employee
+                'employee' => $employee,
+                'skills' => $employee->skills,
             ]);
         }
 
@@ -87,8 +88,24 @@ class EmployeeController extends Controller
         # code...
     }
 
-    public function edit(Request $request)
+    /**
+     * Edit employee
+     *
+     * @param Request $request
+     * @param integer $id
+     * @return View
+     */
+    public function edit(Request $request, $id)
     {
-        # code...
+        $employee = Employee::find($id);
+
+        if ($employee) {
+            return view('employees.edit', [
+                'employee' => $employee,
+                'skills' => $employee->skills,
+            ]);
+        }
+
+        return redirect('/');
     }
 }
