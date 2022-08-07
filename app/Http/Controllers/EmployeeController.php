@@ -62,9 +62,24 @@ class EmployeeController extends Controller
             ->withInput();
     }
 
-    public function show(Request $request)
+    /**
+     * Show employee details
+     *
+     * @param Request $request
+     * @param integer $id
+     * @return View
+     */
+    public function show(Request $request, $id)
     {
-        # code...
+        $employee = Employee::find($id);
+
+        if ($employee) {
+            return view('employees.show', [
+                'employee' => $employee
+            ]);
+        }
+
+        return redirect('/');
     }
 
     public function update(Request $request)
