@@ -19,12 +19,12 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('contact_number');
             $table->string('email_address');
-            $table->string('date_of_birth');
+            $table->timestamp('date_of_birth');
             $table->string('street_address');
             $table->string('city');
             $table->integer('postal_code');
             $table->bigInteger('country_id')->unsigned()->index();
-            $table->foreign('country_id')->references('id')->on('countrys')->onDelete('cascade');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->timestamps();
         });
     }
