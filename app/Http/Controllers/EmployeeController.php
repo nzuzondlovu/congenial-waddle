@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Skill;
+use App\Models\Country;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use App\Enums\SeniorityRating;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
-use App\Models\Skill;
 
 class EmployeeController extends Controller
 {
@@ -46,10 +48,10 @@ class EmployeeController extends Controller
             ]);
 
             if (!empty($request->skills)) {
-                foreach ($request->skills as $skill) {
-                    $employee->skills()->attach($skill['skill_id'], [
-                        'years' => $skill['years'],
-                        'seniority_rating' => $skill['rating']
+                foreach ($request->skills as $key => $skill) {
+                    $employee->skills()->attach($request->skills[$key], [
+                        'years' => $request->years[$key],
+                        'seniority_rating' => SeniorityRating::getKey($request->rating[$key])
                     ]);
                 }
             }
@@ -159,7 +161,13 @@ class EmployeeController extends Controller
     public function create(Request $request)
     {
         $skills = Skill::all();
+        $countries = Country::all();
+        $ratings = SeniorityRating::getArrayOfArrays();
 
-        return view('employees.create', ['skills' => $skills]);
+        return view('employees.create', [
+            'skills' => $skills,
+            'ratings' => $ratings,
+            'countries' => $countries,
+        ]);
     }
 }

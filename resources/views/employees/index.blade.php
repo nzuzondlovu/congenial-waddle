@@ -3,14 +3,14 @@
 @section('title', 'Home')
 
 @section('content')
-<a href="/employees">Dashboard</a><br>
+<a href="/">Dashboard</a><br>
 <a href="/employees/create">Create New employee</a>
 <table>
     <thead>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Email Address</th>
-        <th>Member Since</th>
+        <th>Contact Number</th>
     </thead>
     <tbody>
         @foreach ($employees as $employee)
@@ -19,8 +19,8 @@
                 <a href="/employees/{{ $employee->id }}">{{ $employee->first_name }}</a>
             </td>
             <td>{{ $employee->last_name }}</td>
-            <td>{{ $employee->email }}</td>
-            <td>{{ $employee->created_at }}</td>
+            <td>{{ $employee->email_address }}</td>
+            <td>{{ $employee->contact_number }}</td>
         </tr>
         @endforeach
     </tbody>

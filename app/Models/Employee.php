@@ -39,6 +39,6 @@ class Employee extends Model
      */
     public function skills()
     {
-        return $this->hasMany(Country::class);
+        return $this->belongsToMany(Skill::class);
     }
 }

@@ -3,7 +3,7 @@
 @section('title', 'Update Employee - ')
 
 @section('content')
-<a href="/employees">Back to employees</a>
+<a href="/">Back to employees</a>
 <h3>Employee Update</h3>
 
 <form action="/employees/{{ $employee->id }}/update" method="post">

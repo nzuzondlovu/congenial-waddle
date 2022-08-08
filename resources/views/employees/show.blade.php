@@ -3,7 +3,7 @@
 @section('title', 'View Employee - ')
 
 @section('content')
-<a href="/employees">Back to employees</a>
+<a href="/">Back to employees</a>
 <h1>{{ $employee->first_name }} {{ $employee->last_name }}</h1>
 <h3>employee Details</h3>
 <h5><a href="/employees/{{ $employee->id }}/edit">Edit employee</a></h5>
