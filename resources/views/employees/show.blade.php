@@ -8,7 +8,6 @@
 <h3>employee Details</h3>
 <h5><a href="/employees/{{ $employee->id }}/edit">Edit employee</a></h5>
 <form action="/employees" method="post">
-    @csrf
     <p>Basic Info</p>
     <label>First Name</label>
     <input name="first_name" type="text" value="{{ $employee->first_name }}">
@@ -49,9 +48,7 @@
                     <input type="text" value="{{ $item->pivot->years }}">
                 </td>
                 <td>
-
-                    <input type="text"
-                        value="{{ \App\Enums\SeniorityRating::coerce($item->pivot->seniority_rating) }}">
+                    <input type="text" value="{{ \App\Enums\SeniorityRating::coerce($item->pivot->seniority_rating) }}">
                 </td>
             </tr>
             @endforeach
@@ -59,6 +56,11 @@
         </tbody>
     </table>
     <br>
+</form>
 
+<form action="/employees/{{ $employee->id }}" method="post">
+    @csrf
+    @method('delete')
+    <button type="submit">Delete</button>
 </form>
 @endsection

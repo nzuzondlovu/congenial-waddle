@@ -76,7 +76,7 @@ class EmployeeController extends Controller
     public function show(Request $request, $id)
     {
         $employee = Employee::find($id);
-// dd($employee->load(['skills', 'country']));
+
         if ($employee) {
             return view('employees.show', [
                 'employee' => $employee->load(['skills', 'country']),
@@ -113,10 +113,10 @@ class EmployeeController extends Controller
 
                 if (!empty($request->skills)) {
                     $employee->skills()->detach();
-                    foreach ($request->skills as $skill) {
-                        $employee->skills()->attach($skill['skill_id'], [
-                            'years' => $skill['years'],
-                            'seniority_rating' => $skill['rating']
+                    foreach ($request->skills as $key => $skill) {
+                        $employee->skills()->attach($request->skills[$key], [
+                            'years' => $request->years[$key],
+                            'seniority_rating' => $request->rating[$key]
                         ]);
                     }
                 }
@@ -168,5 +168,23 @@ class EmployeeController extends Controller
             'ratings' => $ratings,
             'countries' => $countries,
         ]);
+    }
+
+    /**
+     * Delete employee from database
+     *
+     * @param Request $request
+     * @param integer $id
+     * @return View
+     */
+    public function destroy(Request $request, $id)
+    {
+        $employee = Employee::find($id);
+
+        if ($employee) {
+            $employee->delete();
+        }
+
+        return redirect('/');
     }
 }
