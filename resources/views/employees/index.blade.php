@@ -3,7 +3,6 @@
 @section('title', 'Home')
 
 @section('content')
-<a href="/">Dashboard</a><br>
 <a href="/employees/create">Create New employee</a>
 <table>
     <thead>

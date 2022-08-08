@@ -142,9 +142,15 @@ class EmployeeController extends Controller
         $employee = Employee::find($id);
 
         if ($employee) {
+            $skills = Skill::all();
+            $countries = Country::all();
+            $ratings = SeniorityRating::getArrayOfArrays();
+
             return view('employees.edit', [
-                'employee' => $employee,
-                'skills' => $employee->skills,
+                'skills' => $skills,
+                'ratings' => $ratings,
+                'countries' => $countries,
+                'employee' => $employee->load(['skills', 'country']),
             ]);
         }
 
