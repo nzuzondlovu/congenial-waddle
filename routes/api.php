@@ -22,4 +22,6 @@ Route::get('/employees/{id}', '\App\Http\Controllers\EmployeeController@show');
 
 Route::post('/employees/{id}', '\App\Http\Controllers\EmployeeController@update');
 
+Route::delete('/employees/{id}', '\App\Http\Controllers\EmployeeController@destroy');
+
 Route::get('/employees/{id}/edit', '\App\Http\Controllers\EmployeeController@edit');
