@@ -7,6 +7,7 @@ use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use App\Models\Skill;
 
 class EmployeeController extends Controller
 {
@@ -18,7 +19,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::all()->paginate(10);
+        $employees = Employee::paginate(10);
 
         return view('employees.index', ['employees' => $employees]);
     }
@@ -147,5 +148,18 @@ class EmployeeController extends Controller
         }
 
         return redirect('/');
+    }
+
+    /**
+     * Create employee view
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function create(Request $request)
+    {
+        $skills = Skill::all();
+
+        return view('employees.create', ['skills' => $skills]);
     }
 }

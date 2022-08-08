@@ -17,6 +17,8 @@ Route::get('/', '\App\Http\Controllers\EmployeeController@index');
 
 Route::post('/employees', '\App\Http\Controllers\EmployeeController@store');
 
+Route::get('/employees/create', '\App\Http\Controllers\EmployeeController@create');
+
 Route::get('/employees/{id}', '\App\Http\Controllers\EmployeeController@show');
 
 Route::post('/employees/{id}', '\App\Http\Controllers\EmployeeController@update');
