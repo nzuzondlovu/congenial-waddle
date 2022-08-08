@@ -3,9 +3,12 @@
 namespace App\Api\Controllers;
 
 use Exception;
+use App\Models\Skill;
+use App\Models\Country;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Enums\SeniorityRating;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
@@ -48,10 +51,10 @@ class EmployeeController extends Controller
             ]);
 
             if (!empty($request->skills)) {
-                foreach ($request->skills as $skill) {
-                    $employee->skills()->attach($skill['skill_id'], [
-                        'years' => $skill['years'],
-                        'seniority_rating' => $skill['rating']
+                foreach ($request->skills as $key => $skill) {
+                    $employee->skills()->attach($request->skills[$key], [
+                        'years' => $request->years[$key],
+                        'seniority_rating' => $request->rating[$key]
                     ]);
                 }
             }
@@ -80,7 +83,7 @@ class EmployeeController extends Controller
         if ($employee) {
 
             return response()
-                ->json($employee->load('skills'), Response::HTTP_OK);
+                ->json($employee->load(['skills', 'country']), Response::HTTP_OK);
         }
 
         return response()
@@ -114,16 +117,16 @@ class EmployeeController extends Controller
 
                 if (!empty($request->skills)) {
                     $employee->skills()->detach();
-                    foreach ($request->skills as $skill) {
-                        $employee->skills()->attach($skill['skill_id'], [
-                            'years' => $skill['years'],
-                            'seniority_rating' => $skill['rating']
+                    foreach ($request->skills as $key => $skill) {
+                        $employee->skills()->attach($request->skills[$key], [
+                            'years' => $request->years[$key],
+                            'seniority_rating' => $request->rating[$key]
                         ]);
                     }
                 }
 
                 return response()
-                    ->json($employee->load('skills'), Response::HTTP_OK);
+                    ->json($employee->load(['skills', 'country']), Response::HTTP_OK);
             } catch (Exception $e) {
                 report($e);
             }
@@ -145,11 +148,39 @@ class EmployeeController extends Controller
         $employee = Employee::find($id);
 
         if ($employee) {
+            $skills = Skill::all();
+            $countries = Country::all();
+            $ratings = SeniorityRating::getArrayOfArrays();
+
             return response()
-                ->json($employee->load('skills'), Response::HTTP_OK);
+                ->json([
+                    'skills' => $skills,
+                    'ratings' => $ratings,
+                    'countries' => $countries,
+                    'employee' => $employee->load(['skills', 'country'])
+                ], Response::HTTP_OK);
         }
 
         return response()
             ->json(['message' => 'Ooops something went wrong.'], Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Delete employee from database
+     *
+     * @param Request $request
+     * @param integer $id
+     * @return object
+     */
+    public function destroy(Request $request, $id)
+    {
+        $employee = Employee::find($id);
+
+        if ($employee) {
+            $employee->delete();
+        }
+
+        return response()
+            ->json(['message' => 'Successfully deleted employee'], Response::HTTP_OK);
     }
 }
