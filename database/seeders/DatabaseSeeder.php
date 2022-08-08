@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\SkillSeeder;
 use Database\Seeders\CountrySeeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        $this->call(SkillSeeder::class);
         $this->call(CountrySeeder::class);
     }
 }
