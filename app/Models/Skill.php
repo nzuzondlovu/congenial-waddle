@@ -23,6 +23,6 @@ class Skill extends Model
      */
     public function employees()
     {
-        return $this->belongsToMany(Employee::class)->withPivot('years', 'seniority_rating');
+        return $this->belongsToMany(Employee::class);
     }
 }

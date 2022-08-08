@@ -51,7 +51,7 @@ class EmployeeController extends Controller
                 foreach ($request->skills as $key => $skill) {
                     $employee->skills()->attach($request->skills[$key], [
                         'years' => $request->years[$key],
-                        'seniority_rating' => SeniorityRating::getKey($request->rating[$key])
+                        'seniority_rating' => $request->rating[$key]
                     ]);
                 }
             }
@@ -76,11 +76,10 @@ class EmployeeController extends Controller
     public function show(Request $request, $id)
     {
         $employee = Employee::find($id);
-
+// dd($employee->load(['skills', 'country']));
         if ($employee) {
             return view('employees.show', [
-                'employee' => $employee,
-                'skills' => $employee->skills,
+                'employee' => $employee->load(['skills', 'country']),
             ]);
         }
 
