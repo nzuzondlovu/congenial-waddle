@@ -1,5 +1,5 @@
 
-# Project Title
+# congenial-waddle
 
 This is an employee management platform used by one user.
 
