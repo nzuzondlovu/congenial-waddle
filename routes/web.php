@@ -26,3 +26,7 @@ Route::post('/employees/{id}', '\App\Http\Controllers\EmployeeController@update'
 Route::delete('/employees/{id}', '\App\Http\Controllers\EmployeeController@destroy');
 
 Route::get('/employees/{id}/edit', '\App\Http\Controllers\EmployeeController@edit');
+
+Route::post('/search', '\App\Http\Controllers\EmployeeController@search');
+
+Route::get('/search/{query}', '\App\Http\Controllers\EmployeeController@getSearch');

@@ -193,4 +193,44 @@ class EmployeeController extends Controller
 
         return redirect('/');
     }
+
+    /**
+     * Post search function
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function search(Request $request)
+    {
+        if ($request->search) {
+            return redirect('/search/' . $request->search);
+        }
+
+        return redirect('/');
+    }
+
+    /**
+     * Get search function
+     *
+     * @param string $query
+     * @return View
+     */
+    public function getSearch($query)
+    {
+        if ($query) {
+
+            $employees = Employee::where('first_name', 'LIKE', '%' . $query . '%')
+                ->orWhere('email_address', 'LIKE', '%' . $query . '%')
+                ->orWhere('last_name', 'LIKE', '%' . $query . '%')
+                ->get();
+
+            return view('employees.search', [
+                'query' => $query,
+                'employees' => $employees,
+                'resultCount' => $employees->count(),
+            ]);
+        }
+
+        return redirect('/');
+    }
 }

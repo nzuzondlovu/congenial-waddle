@@ -1,14 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Home')
+@section('title', 'Search')
 
 @section('content')
-<a href="/employees/create">Create New employee</a>
-<form action="/search" method="post">
-    @csrf
-    <input type="text" name="search">
-    <input type="submit" value="Search">
-</form>
+<a href="/">Back to employees</a>
+<p> Results for '{{ $query }}'</p>
 <table>
     <thead>
         <th>First Name</th>
@@ -29,5 +25,4 @@
         @endforeach
     </tbody>
 </table>
-{{ $employees->links() }}
 @endsection
